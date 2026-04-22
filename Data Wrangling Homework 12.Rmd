@@ -71,3 +71,21 @@ species_average_body_mass %>%
   kable()
 ```
 ^[Question 4 Complete.]
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+## Penguin Database
+
+### DuckDB Database
+```{r}
+con <- DBI::dbConnect(duckdb::duckdb())
+con
+```
+^[Question 1 Complete.]
+
+### Combined Penguins Tibble to Database
+```{r}
+dbWriteTable(con, "penguins", stacked_data, overwrite = TRUE)
+dbListTables(con)
+```
+^[Question 2 Complete.]

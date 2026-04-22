@@ -598,6 +598,24 @@ species_average_body_mass %&gt;%
 </tbody>
 </table>
 <p><a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
+<hr />
+</div>
+</div>
+<div id="penguin-database" class="section level2">
+<h2>Penguin Database</h2>
+<div id="duckdb-database" class="section level3">
+<h3>DuckDB Database</h3>
+<pre class="r"><code>con &lt;- DBI::dbConnect(duckdb::duckdb())
+con</code></pre>
+<pre><code>## &lt;duckdb_connection 14f60 driver=&lt;duckdb_driver dbdir=&#39;:memory:&#39; read_only=FALSE bigint=numeric&gt;&gt;</code></pre>
+<p><a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></p>
+</div>
+<div id="combined-penguins-tibble-to-database" class="section level3">
+<h3>Combined Penguins Tibble to Database</h3>
+<pre class="r"><code>dbWriteTable(con, &quot;penguins&quot;, stacked_data, overwrite = TRUE)
+dbListTables(con)</code></pre>
+<pre><code>## [1] &quot;penguins&quot;</code></pre>
+<p><a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></p>
 </div>
 </div>
 <div class="footnotes footnotes-end-of-document">
@@ -607,6 +625,8 @@ species_average_body_mass %&gt;%
 <li id="fn2"><p>Question 2 Complete.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 <li id="fn3"><p>Question 3 Complete.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
 <li id="fn4"><p>Question 4 Complete.<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
+<li id="fn5"><p>Question 1 Complete.<a href="#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn6"><p>Question 2 Complete.<a href="#fnref6" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
 
