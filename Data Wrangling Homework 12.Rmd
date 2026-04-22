@@ -60,3 +60,14 @@ ggplot(stacked_data, aes(x = bill_length_mm, y = bill_depth_mm, color = species)
   facet_wrap(~island)
 ```
 ^[Question 3 Complete.]
+
+### Average Body masses of the Different Penguin Species.
+```{r}
+species_average_body_mass <- stacked_data %>%
+  group_by(species) %>%
+  summarize(average_mass = round(mean(body_mass_g, na.rm = TRUE), 2))
+
+species_average_body_mass %>%
+  kable()
+```
+^[Question 4 Complete.]
