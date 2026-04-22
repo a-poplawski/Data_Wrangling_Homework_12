@@ -471,6 +471,7 @@ library(knitr)
 library(duckdb)</code></pre>
 <pre><code>## Loading required package: DBI</code></pre>
 <pre class="r"><code>library(DBI)</code></pre>
+<hr />
 <div id="penguin-excel-spreadsheet" class="section level2">
 <h2>Penguin Excel Spreadsheet</h2>
 <div id="three-worksheets-loaded" class="section level3">
@@ -607,7 +608,7 @@ species_average_body_mass %&gt;%
 <h3>DuckDB Database</h3>
 <pre class="r"><code>con &lt;- DBI::dbConnect(duckdb::duckdb())
 con</code></pre>
-<pre><code>## &lt;duckdb_connection 14f60 driver=&lt;duckdb_driver dbdir=&#39;:memory:&#39; read_only=FALSE bigint=numeric&gt;&gt;</code></pre>
+<pre><code>## &lt;duckdb_connection cdd80 driver=&lt;duckdb_driver dbdir=&#39;:memory:&#39; read_only=FALSE bigint=numeric&gt;&gt;</code></pre>
 <p><a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></p>
 </div>
 <div id="combined-penguins-tibble-to-database" class="section level3">
@@ -616,6 +617,63 @@ con</code></pre>
 dbListTables(con)</code></pre>
 <pre><code>## [1] &quot;penguins&quot;</code></pre>
 <p><a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></p>
+</div>
+<div id="dbplyr-connection" class="section level3">
+<h3>Dbplyr Connection</h3>
+<pre class="r"><code>penguins_db &lt;- tbl(con, &quot;penguins&quot;)
+penguins_db</code></pre>
+<pre><code>## # Source:   table&lt;penguins&gt; [?? x 8]
+## # Database: DuckDB v1.2.1 [unknown@Linux 5.15.12-1-default:R 4.0.2/:memory:]
+##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Adelie  Torgersen           39.1          18.7               181        3750
+##  2 Adelie  Torgersen           39.5          17.4               186        3800
+##  3 Adelie  Torgersen           40.3          18                 195        3250
+##  4 Adelie  Torgersen           NA            NA                  NA          NA
+##  5 Adelie  Torgersen           36.7          19.3               193        3450
+##  6 Adelie  Torgersen           39.3          20.6               190        3650
+##  7 Adelie  Torgersen           38.9          17.8               181        3625
+##  8 Adelie  Torgersen           39.2          19.6               195        4675
+##  9 Adelie  Torgersen           34.1          18.1               193        3475
+## 10 Adelie  Torgersen           42            20.2               190        4250
+## # ℹ more rows
+## # ℹ 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
+<p><a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a></p>
+</div>
+<div id="sql-query" class="section level3">
+<h3>SQL Query</h3>
+<pre class="r"><code>sql &lt;- &quot;
+SELECT species, AVG(body_mass_g) AS avg_body_mass
+FROM penguins
+GROUP BY species
+&quot;
+average_body_mass_result &lt;- as_tibble(dbGetQuery(con, sql))
+
+average_body_mass_result %&gt;% 
+  kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">species</th>
+<th align="right">avg_body_mass</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Chinstrap</td>
+<td align="right">3733.088</td>
+</tr>
+<tr class="even">
+<td align="left">Gentoo</td>
+<td align="right">5076.016</td>
+</tr>
+<tr class="odd">
+<td align="left">Adelie</td>
+<td align="right">3700.662</td>
+</tr>
+</tbody>
+</table>
+<p><a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a></p>
 </div>
 </div>
 <div class="footnotes footnotes-end-of-document">
@@ -627,6 +685,8 @@ dbListTables(con)</code></pre>
 <li id="fn4"><p>Question 4 Complete.<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
 <li id="fn5"><p>Question 1 Complete.<a href="#fnref5" class="footnote-back">↩︎</a></p></li>
 <li id="fn6"><p>Question 2 Complete.<a href="#fnref6" class="footnote-back">↩︎</a></p></li>
+<li id="fn7"><p>Question 3 Complete.<a href="#fnref7" class="footnote-back">↩︎</a></p></li>
+<li id="fn8"><p>Question 4 Complete.<a href="#fnref8" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
 
